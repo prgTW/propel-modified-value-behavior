@@ -1,9 +1,9 @@
 {
-  "name": "radekb/propel-modified-value-behavior",
+  "name": "prgTW/propel-modified-value-behavior",
   "description": "Propel behavior for Access previous value of field after called setter method",
   "type": "propel-behavior",
   "require": {
-    "propel/propel": "2.0.x-dev"
+    "propel/propel": "~2.0@dev"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0"
