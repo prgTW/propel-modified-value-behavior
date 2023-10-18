@@ -1,5 +1,5 @@
 {
-    "name": "radekb/propel-modified-value-behavior",
+    "name": "prgTW/propel-modified-value-behavior",
     "description": "Propel behavior for Access previous value of field after called setter method",
     "require": {
         "propel/propel1": "1.*"
