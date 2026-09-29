@@ -21,4 +21,13 @@ class ModifiedValueBehavior extends Behavior
 
 		return $this->modelBuilderModifier;
 	}
+
+	/**
+	 * Propel >= 2.0.0-beta2 resolves templates from a `src/` root it cannot find in vendor/;
+	 * older versions never call this method.
+	 */
+	protected function getTemplatePath(string $path): string
+	{
+		return __DIR__ . '/templates/';
+	}
 }
