@@ -1,14 +1,25 @@
 <?php
+use PHPUnit\Framework\TestCase;
 use Propel\Generator\Util\QuickBuilder;
 
 /**
  * Author: Radek
  * Date: 27/10/15 16:57
  */
-class ModifiedValueTest extends \Propel\Tests\TestCase
+class ModifiedValueTest extends TestCase
 {
-	public function setUp()
+	protected function setUp(): void
 	{
+		// Propel itself still triggers deprecations on recent PHP; only those raised by this package fail the test.
+		$packageDir = dirname(__DIR__) . DIRECTORY_SEPARATOR;
+		set_error_handler(function ($severity, $message, $file, $line) use ($packageDir) {
+			if (0 !== strpos($file, $packageDir) || 0 === strpos($file, $packageDir . 'vendor' . DIRECTORY_SEPARATOR))
+			{
+				return false;
+			}
+			throw new \ErrorException($message, 0, $severity, $file, $line);
+		});
+
 		if (!class_exists('\TestModel'))
 		{
 			$schema = <<<EOF
@@ -22,8 +33,16 @@ class ModifiedValueTest extends \Propel\Tests\TestCase
     </table>
 </database>
 EOF;
-			QuickBuilder::buildSchema($schema);
+			$builder = new QuickBuilder();
+			$builder->setSchema($schema);
+			$builder->setVfs(false);
+			$builder->build();
 		}
+	}
+
+	protected function tearDown(): void
+	{
+		restore_error_handler();
 	}
 
 	public function testAddedMethods()
